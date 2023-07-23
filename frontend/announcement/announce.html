@@ -136,9 +136,20 @@
       .hidden-form textarea {
         width: 100%;
       }
+      .bck {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  margin: 10px;
+}
+
     </style>
   </head>
   <body>
+    <div>
+    <a href="../form/login.html">  <button class="bck" type="button">Back</a></button>
+    </div>
     <div class="container">
       <h1>Risk Manage</h1>
       <form id="createAnnounceForm">
@@ -261,7 +272,7 @@ else{
       async function deleteAnnouncement(id) {
         try {
           const response = await fetch(
-            `http://localhost:5500/api/v1/tasks/announcement/annonce/${id}`,
+            `http://localhost:5500/api/v1/tasks/announcement/announce/${id}`,
             {
               method: "DELETE",
               headers: {
@@ -292,7 +303,7 @@ else{
           if (!title || !description) return; // Cancelled or empty input
 
           const response = await fetch(
-            `http://localhost:5500/api/v1/tasks/announcement/annonce/${id}`,
+            `http://localhost:5500/api/v1/tasks/announcement/announce/${id}`,
             {
               method: "PATCH",
               headers: {

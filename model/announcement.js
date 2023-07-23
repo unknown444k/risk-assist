@@ -25,6 +25,10 @@ const announceShchema = mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  createdAt :{
+    type:Date,
+    default:Date.now
+  }
 });
 
 dbs = mongoose.model("announcement", announceShchema);

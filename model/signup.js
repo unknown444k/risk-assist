@@ -32,6 +32,10 @@ signupSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  createdAt :{
+    type:Date,
+    default:Date.now
+  }
 });
 
 dbs = mongoose.model("signup", signupSchema);

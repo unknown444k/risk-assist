@@ -19,7 +19,9 @@ body {
   color: #333;
   text-align: center;
 }
-
+button:hover {
+        background-color: #0056b3;
+      }
 h1 {
   margin-top: 20px;
 }
@@ -56,23 +58,39 @@ th {
     .actions button:not(.active) i.fa-toggle-on {
       color: #ccc;
     }
+    button {
+        cursor: pointer;
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 3px;
+        transition: background-color 0.2s ease;
+      }
   
-
+    .bck {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  margin: 10px;
+  
+}
 </style>
 </head>
 <body>
+  <div>
+    <a href="../form/login.html">  <button class="bck" type="button">Back</a></button>
+    </div>
   <div class="container">
     <h1>Admin Dashboard</h1>
 
     <!-- User Count Section -->
-    <div>
-      <h2>User Count</h2>
-      <p id="userCount">Loading...</p>
-    </div>
+
 
     <!-- Announcement Section -->
     <div>
-      <h2>Announcements</h2>
+      <h2>Risk query details</h2>
       <table>
         <thead>
           <tr>
@@ -89,6 +107,8 @@ th {
 
     <!-- User Details Section -->
     <div>
+        <h3 style="display: inline-block; text-align: right;">User Count</h3>
+        <p id="userCount" style="display: inline-block; text-align: left;">Loading...</p>
       <h2>User Details</h2>
       <table>
         <thead>
@@ -118,7 +138,7 @@ th {
           },
         });
         const data = await response.json();
-        document.getElementById('userCount').innerText = `Total Users: ${data.usersCount}`;
+        document.getElementById('userCount').innerText = ` : ${data.usersCount}`;
       } catch (error) {
         console.error('Error fetching user count:', error);
       }
@@ -189,7 +209,7 @@ th {
     async function deleteAnnouncement(id) {
         try {
           const response = await fetch(
-            `${apiUrl}/announcement/annonce/${id}`,
+            `${apiUrl}/announcement/announce/${id}`,
             {
               method: "DELETE",
               headers: {
@@ -219,7 +239,7 @@ th {
           if (!title || !description) return; // Cancelled or empty input
 
           const response = await fetch(
-            `${apiUrl}/announcement/annonce/${id}`,
+            `${apiUrl}/announcement/announce/${id}`,
             {
               method: "PATCH",
               headers: {
