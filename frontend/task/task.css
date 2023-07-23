@@ -1,0 +1,87 @@
+body {
+    background-color: #f4f4f4;
+    color: #333;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  
+  h1 {
+    margin-top: 20px;
+  }
+  
+  .task-list,
+  .create-task {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    width: 400px;
+  }
+  
+  .task-list h2,
+  .create-task h2 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  ul#task-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li.task-item {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 3px;
+  }
+  
+  .task-item span {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+  
+  .task-actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .task-actions button {
+    margin-left: 10px;
+    padding: 5px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .task-actions button:hover {
+    background-color: #555;
+  }
+  
+  .create-task input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .create-task button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .create-task button:hover {
+    background-color: #555;
+  }
+  

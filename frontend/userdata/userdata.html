@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="../userdata/userdata.css">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+/>
+<style>
+    /* Your CSS styles here */
+
+/* For example, a simple layout with flexbox */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  text-align: center;
+}
+
+h1 {
+  margin-top: 20px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.actions button.active i.fa-toggle-on {
+      color: #28a745;
+    }
+
+    /* Add styles for inactive toggle button */
+    .actions button:not(.active) i.fa-toggle-on {
+      color: #ccc;
+    }
+  
+
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+
+    <!-- User Count Section -->
+    <div>
+      <h2>User Count</h2>
+      <p id="userCount">Loading...</p>
+    </div>
+
+    <!-- Announcement Section -->
+    <div>
+      <h2>Announcements</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="announcementList">
+          <!-- Announcement items will be added dynamically using JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- User Details Section -->
+    <div>
+      <h2>User Details</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody id="userList">
+          <!-- User details will be added dynamically using JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Your Fetch API code to interact with the server will be placed here
+    const apiUrl = 'http://localhost:5500/api/v1/tasks';
+    const accessToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGJiN2Q3ZDdhOTY2YjUzYTc5ZGExMTciLCJ1c2VyRW1haWwiOiJ6aWRhemlraXR1QG1haWxpbmF0b3IuY29tIiwidXNlck5hbWUiOiJZYXJkbGV5IFJvbGxpbnMiLCJpYXQiOjE2OTAwMTMzMDB9.8Vrrnm7UvdcJA5LeqgFVJoP4T8NlRte4hRv4f64CTa0";
+    async function fetchUserCount() {
+      try {
+        const response = await fetch(`${apiUrl}/userdetails/userscount`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        document.getElementById('userCount').innerText = `Total Users: ${data.usersCount}`;
+      } catch (error) {
+        console.error('Error fetching user count:', error);
+      }
+    }
+
+    async function fetchAnnouncements() {
+      try {
+        const response = await fetch(`${apiUrl}/announcement/announce`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        const announcementList = document.getElementById('announcementList');
+
+        announcementList.innerHTML = data.data.map(announcement => `
+          <tr>
+            <td>${announcement.title}</td>
+            <td>${announcement.description}</td>
+
+          
+            <td>
+              <button onclick="deleteAnnouncement('${announcement._id}')">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+              <button onclick="updateAnnouncement('${announcement._id}')">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button onclick="updateStatus('${announcement._id}', ${announcement.status})" class="${announcement.status ? 'active' : ''}">
+                <i class="fas fa-toggle-on"></i>
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (error) {
+        console.error('Error fetching announcements:', error);
+      }
+    }
+
+    async function fetchUsers() {
+      try {
+        const response = await fetch(   `${apiUrl}/userdetails/users`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        if (data && Array.isArray(data.users)) {
+          const userList = document.getElementById('userList');
+
+          userList.innerHTML = data.users.map(user => `
+            <tr>
+              <td>${user.name}</td>
+              <td>${user.email}</td>
+            </tr>
+          `).join('');
+        } else {
+          console.error('Invalid user data format:', data);
+        }
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    }
+
+    // Function to delete an announcement by its ID
+    async function deleteAnnouncement(id) {
+        try {
+          const response = await fetch(
+            `${apiUrl}/announcement/annonce/${id}`,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            fetchAnnouncements();
+            alert("announcement deleted successfully"); // Refresh the list of announcements
+          } else {
+            console.error(data.error || "Failed to delete announcement");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+      // Function to update an announcement by its ID
+      async function updateAnnouncement(id) {
+        // Implement the update functionality similarly to deleteAnnouncement
+        // Use the PATCH method and include the updated title and description in the request body
+        try {
+          const title = prompt("Enter the updated title:");
+          const description = prompt("Enter the updated description:");
+          if (!title || !description) return; // Cancelled or empty input
+
+          const response = await fetch(
+            `${apiUrl}/announcement/annonce/${id}`,
+            {
+              method: "PATCH",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ title, description }),
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            fetchAnnouncements();
+            alert("announcement updated");
+          } else {
+            console.error(data.error || `Failed to update`);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+      // Function to update the status of an announcement by its ID
+      async function updateStatus(id, currentStatus) {
+    try {
+      // Determine the new status value
+      const newStatus = currentStatus === true ? false : true;
+
+      const response = await fetch(
+        `http://localhost:5500/api/v1/tasks/announcement/status/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: newStatus }),
+        }
+      );
+
+      const data = await response.json();
+      if (response.ok) {
+        fetchAnnouncements();
+        alert("Status updated");
+      } else {
+        console.error(data.error || "Failed to update status");
+      }
+    } catch (error) {
+      console.error;
+    }
+  }
+    fetchUserCount();
+    fetchAnnouncements();
+    fetchUsers();
+  </script>
+</body>
+</html>

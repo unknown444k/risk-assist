@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <!-- Font Awesome icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    .task-list,
+    .create-task {
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      width: 400px;
+    }
+
+    .task-list h2,
+    .create-task h2 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    ul#task-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li.task-item {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-radius: 3px;
+    }
+
+    .task-item span {
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+
+    .task-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .task-actions button {
+      margin-left: 10px;
+      padding: 5px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .task-actions button:hover {
+      background-color: #555;
+    }
+
+    .create-task input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .create-task button {
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .create-task button:hover {
+      background-color: #555;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>Task Manager</h1>
+  <div class="task-list">
+    <h2>All Tasks</h2>
+    <ul id="task-list"></ul>
+  </div>
+
+  <div class="create-task">
+    <h2>Create Task</h2>
+    <form id="create-task-form">
+      <input type="text" id="task-name" placeholder="Task name" required>
+      <button type="submit">Create</button>
+    </form>
+  </div>
+
+  <script>
+    // JavaScript code using Fetch API to interact with the APIs
+    const taskList = document.getElementById('task-list');
+    const createTaskForm = document.getElementById('create-task-form');
+  
+    const accessToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGJiN2Q3ZDdhOTY2YjUzYTc5ZGExMTciLCJ1c2VyRW1haWwiOiJ6aWRhemlraXR1QG1haWxpbmF0b3IuY29tIiwidXNlck5hbWUiOiJZYXJkbGV5IFJvbGxpbnMiLCJpYXQiOjE2OTAwMTMzMDB9.8Vrrnm7UvdcJA5LeqgFVJoP4T8NlRte4hRv4f64CTa0";
+    // Function to fetch all tasks and display them
+    async function fetchTasks() {
+      try {
+        const response = await fetch('http://localhost:5500/api/v1/tasks',{
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          },
+        }
+        );
+        const data = await response.json();
+        if (response.ok) {
+          taskList.innerHTML = data.data.map(task => `
+            <li class="task-item">
+              <span>${task.name}</span>
+              <div class="task-actions">
+                <button onclick="deleteTask('${task._id}')">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+                <button onclick="updateTask('${task._id}')">
+                  <i class="fas fa-edit"></i>
+                </button>
+              </div>
+            </li>
+          `).join('');
+        } else {
+          console.error(data.error || 'Failed to fetch tasks');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    // Function to create a new task
+    async function createTask(event) {
+      event.preventDefault();
+      const taskNameInput = document.getElementById('task-name');
+      const taskName = taskNameInput.value.trim();
+      if (!taskName) {
+        alert('Task name should not be empty.');
+        return;
+      }
+      try {
+        const response = await fetch('http://localhost:5500/api/v1/tasks', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name: taskName })
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        console.log('Task created successfully:', data);
+        alert('Task created successfully');
+
+        // Refresh the list of tasks after creating a new task
+        fetchTasks();
+        taskNameInput.value = ''; // Clear the input field after task creation
+      } catch (error) {
+        console.error('Error creating task:', error.message);
+      }
+    }
+
+    // Function to delete a task by its ID
+    async function deleteTask(id) {
+      try {
+        const response = await fetch(`http://localhost:5500/api/v1/tasks/${id}`, { method: 'DELETE' ,
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          },});
+        const data = await response.json();
+        if (response.ok) {
+          fetchTasks(); // Refresh the list of tasks
+        } else {
+          console.error(data.error || 'Failed to delete task');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    // Function to update a task by its ID
+    async function updateTask(id) {
+      try {
+        const newTaskName = prompt('Enter the updated task name:');
+        if (!newTaskName) return; // Cancelled or empty input
+
+        const response = await fetch(`http://localhost:5500/api/v1/tasks/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name: newTaskName })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          fetchTasks();
+        } else {
+          console.error(data.error || 'Failed to update task');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    createTaskForm.addEventListener('submit', createTask);
+    fetchTasks(); // Fetch and display the initial list of tasks
+  </script>
+</body>
+</html>

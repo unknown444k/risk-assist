@@ -1,0 +1,66 @@
+body {
+  background-color: #f2f2f2;
+  color: #333;
+  font-family: "Arial", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 400px;
+}
+label {
+  display: block;
+  margin-bottom: 10px;
+  color: black;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[id="phone"] {
+  width: 150%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #000;
+  border-radius: 3px;
+}
+
+button {
+  width: 160%;
+  padding: 10px;
+  background-color:#007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #267edb;
+}
+
+a {
+  padding-left: 5px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+}
+
+.sts {
+  margin-left: 10px;
+}
+
+.file {
+  margin-bottom: 15px;
+  font-size: 20px;
+}
