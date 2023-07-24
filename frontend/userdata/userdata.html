@@ -13,6 +13,7 @@
     /* Your CSS styles here */
 
 /* For example, a simple layout with flexbox */
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
@@ -27,7 +28,7 @@ h1 {
 }
 
 .container {
-  max-width: 1000px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 20px;
   background-color: #ffffff;
@@ -74,7 +75,6 @@ th {
   right: 0;
   padding: 10px;
   margin: 10px;
-  
 }
 </style>
 </head>
@@ -96,6 +96,7 @@ th {
           <tr>
             <th>Title</th>
             <th>Description</th>
+            <th>status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -159,6 +160,7 @@ th {
           <tr>
             <td>${announcement.title}</td>
             <td>${announcement.description}</td>
+            <td>${announcement.status == true?"active":"deactive"}</td>
 
           
             <td>
@@ -178,7 +180,6 @@ th {
         console.error('Error fetching announcements:', error);
       }
     }
-
     async function fetchUsers() {
       try {
         const response = await fetch(   `${apiUrl}/userdetails/users`, {

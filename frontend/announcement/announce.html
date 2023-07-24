@@ -15,7 +15,7 @@
         background-color: #f1f1f1;
       }
       .container {
-        max-width: 800px;
+        max-width: 1500px;
         margin: 0 auto;
         padding: 20px;
         background-color: #ffffff;
@@ -70,6 +70,22 @@
         padding: 0;
       }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+
       .announcement-item {
         border: 1px solid #cccccc;
         padding: 10px;
@@ -87,7 +103,7 @@
 
       .actions {
         display: flex;
-        gap: 10px;
+        gap: 5px;
       }
 
       .actions button {
@@ -159,33 +175,31 @@
         <textarea id="description" rows="4" ></textarea>
         <button type="submit">Create Query</button>
       </form>
-      <div>
-        <h3>Risk Queries</h3>
-      </div>
+   
       <!-- Hidden form for updating the announcement -->
-      <form id="updateAnnounceForm" class="hidden-form">
-        <input type="hidden" id="updateAnnounceId" />
-        <label for="updateTitle">Title:</label>
-        <input type="text" id="updateTitle" />
-      
-        <label for="updateDescription">Description:</label>
-        <textarea id="updateDescription" rows="4" required></textarea>
-      
-        <button type="button" onclick="submitUpdate()">Update Query</button>
-        <button type="button" onclick="cancelUpdate()">Cancel</button>
-      </form>
-      <ul class="announcement-list" id="announcementList">
-        <!-- Announcement items will be added dynamically using JavaScript -->
-      </ul>
+      <!-- Announcement Section -->
+      <div>
+        <h2>Risk query details</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="announcementList">
+            <!-- Announcement items will be added dynamically using JavaScript -->
+          </tbody>
+        </table>
+      </div>
     </div>
-
     <script>
       // JavaScript code using Fetch API to interact with the APIs
       const createAnnounceForm = document.getElementById("createAnnounceForm");
       const updateAnnounceForm = document.getElementById("updateAnnounceForm");
       const announcementList = document.getElementById("announcementList");
-     
-
       const accessToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGJiN2Q3ZDdhOTY2YjUzYTc5ZGExMTciLCJ1c2VyRW1haWwiOiJ6aWRhemlraXR1QG1haWxpbmF0b3IuY29tIiwidXNlck5hbWUiOiJZYXJkbGV5IFJvbGxpbnMiLCJpYXQiOjE2OTAwMTMzMDB9.8Vrrnm7UvdcJA5LeqgFVJoP4T8NlRte4hRv4f64CTa0";
       // Function to fetch all announcements and display them
@@ -203,25 +217,26 @@
           const data = await response.json();
           if (response.ok) {
             announcementList.innerHTML = data.data
-              .map(
-                (announcement) => `
-            <li class="announcement-item">
-              <h4>${announcement.title}</h4>
-              <p>${announcement.description}</p>
-              <div class="actions">
-                <button onclick="deleteAnnouncement('${announcement._id}')">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-                <button onclick="updateAnnouncement('${announcement._id}')">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button onclick="updateStatus('${announcement._id}')">
-                  <i class="fas fa-toggle-on"></i>
-                </button>
-              </div>
-            </li>
-          `
-              )
+              .map(announcement => `
+          <tr>
+            <td>${announcement.title}</td>
+            <td>${announcement.description}</td>
+            <td>${announcement.status == true?"active":"deactive"}</td>
+
+          
+            <td>
+              <button onclick="deleteAnnouncement('${announcement._id}')">
+  <i class="fas fa-trash-alt fa-sm" aria-label="Delete"></i>
+</button>
+<button onclick="updateAnnouncement('${announcement._id}')">
+  <i class="fas fa-edit fa-sm" aria-label="Edit"></i>
+</button>
+<button onclick="updateStatus('${announcement._id}', ${announcement.status})" class="${announcement.status ? 'active' : ''}">
+  <i class="fas fa-toggle-on fa-sm" aria-label="${announcement.status ? 'Active' : 'Inactive'}"></i>
+</button>
+</td>
+          </tr>
+        `)
               .join("");
           } else {
             console.error(data.error || "Failed to fetch query");
@@ -340,6 +355,7 @@ else{
             }
           );
           const data = await response.json();
+
           if (response.ok) {
             fetchAnnouncements();
             alert("status updated");
