@@ -12,7 +12,6 @@ const loginUser = async (req, res) => {
       userpassword,
       user.confirmpassword
     );
-
     if (user.email == "admin@gmail.com" && isPasswordMatch == true) {
     
        const getannounce = await announcedb.find({});
@@ -37,10 +36,10 @@ const loginUser = async (req, res) => {
       };
       const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
 
-      return res
+       res
         .status(200)
-        .json({ message: "Login Successful", accessToken: token });
-    }
+        .json({ message: "Login Successful", accessToken: token })
+      }
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -94,8 +93,23 @@ function authenticateToken(req, res, next) {
   }
 }
 
+const logoutUser = async(req,res)=>{
+  try {
+    await req.session.destroy((err)=>{
+      if(err){
+        return res.status(404).json({error:"Error occured during logged out"})
+      }
+      return res.status(200).json({ message: 'Logout successful.' });
+    })
+  } catch (error) {
+    return res.status(500).json({error:"Internal server error"})
+  }
+}
+
+
 module.exports = {
   loginUser,
   adminLogin,
   authenticateToken,
+  logoutUser
 };

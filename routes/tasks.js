@@ -8,6 +8,8 @@ const announcement = require("../controllers/announceController");
 router.route("/").get(task.getalltasks).post(task.createTasks);
 router.route("/:id").get(task.getsingletasks).patch(task.updatetasks).delete(task.deletetasks);
 router.route("/login").post(login.loginUser);
+router.route("/logout").post(login.logoutUser);
+
 router.route("/adminlogin").post(login.adminLogin);
 router.route("/signup").post(signup.signupUser);
 router.route("/userdetails/users").get(signup.getUsers);
