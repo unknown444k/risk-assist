@@ -22,11 +22,12 @@ const loginUser = async (req, res) => {
       
     } else {
       if (!user) {
-        return res.status(401).json({ message: "Invalid credentials" });
+        return res.status(404).json({ message: "Invalid credentials" });
       }
 
       if (!isPasswordMatch) {
-        return res.status(401).json({ message: "Invalid password" });
+        return res.status(404).json({ message: "Invalid password" });
+
       }
 
       const payload = {

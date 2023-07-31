@@ -6,8 +6,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="login.css" />
-
-  
   </head>
   <body>
     <div class="container">
@@ -34,16 +32,13 @@
 
         if (useremail === "" && userpassword === "") {
           alert("Please enter username and password");
-        }
-        else if(!emailPattern.test(useremail)){
+        } else if (!emailPattern.test(useremail)) {
           alert("Please enter valid email");
-
         } else if (useremail !== "" && userpassword === "") {
           alert("Please enter password");
         } else if (useremail !== useremail.toLowerCase()) {
           alert("Email should not contain uppercase letters");
-        }
-         else {
+        } else {
           try {
             const response = await fetch(
               "http://localhost:8080/api/v1/tasks/login",
@@ -56,25 +51,22 @@
               }
             );
 
-
             if (!response.ok) {
               throw new Error("Network response was not ok");
             }
-if(useremail == "admin@gmail.com" && userpassword == "admin@123"){
-  window.location.href = '../userdata/userdata.html';
-            alert("Login successful");
-}
-else{
-  const data = await response.json();
-            console.log("Login successful:", data);
+            if (useremail == "admin@gmail.com" && userpassword == "admin@123") {
+              window.location.href = "../userdata/userdata.html";
+              alert("Login successful");
+            } else {
+              const data = await response.json();
+              console.log("Login successful:", data);
 
-            // Redirect to another page or perform other actions upon successful login
-            // For example, you can redirect the user to a dashboard page:
-            // window.location.href = '/dashboard';
-            window.location.href = '../announcement/announce.html';
-            alert("Login successful");
-}
-          
+              // Redirect to another page or perform other actions upon successful login
+              // For example, you can redirect the user to a dashboard page:
+              // window.location.href = '/dashboard';
+              window.location.href = "../announcement/announce.html";
+              alert("Login successful");
+            }
           } catch (error) {
             console.error("Login failed:", error.message);
             // Handle login error, show error message, etc.
