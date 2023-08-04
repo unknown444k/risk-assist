@@ -14,7 +14,7 @@ const createAnnounce = async (req, res) => {
         description,
       });
       res.status(200).json({
-        message: "Announcement Created Successfully",
+        message: "query Created Successfully",
         data: annoucement,
       });
     } catch (error) {
@@ -46,11 +46,11 @@ const deleteAnnounce = async (req, res) => {
       });
       if (!deleteannounce) {
         return res.status(404).json({
-          message: `no announcement present with the id ${announceID}`,
+          message: `no query present with the id ${announceID}`,
         });
       } else {
         return res.status(200).json({
-          message: "announcement deleteted successfully",
+          message: "query deleteted successfully",
           data: deleteannounce,
         });
       }
@@ -85,11 +85,11 @@ const updateAnnounce = async (req, res) => {
       );
       if (!updateannounce) {
         return res.status(404).json({
-          message: `no announcement present with the id ${announceID}`,
+          message: `no query present with the id ${announceID}`,
         });
       } else {
         return res.status(200).json({
-          message: "announcement updated successfully",
+          message: "query updated successfully",
           data: updateannounce,
         });
       }
@@ -110,7 +110,7 @@ const updateStatus = async (req, res) => {
       const updatestatus = await announcedb.findById({ _id: announceID });
       if (!updatestatus) {
         return res.status(404).json({
-          message: `no announcement present with the id ${announceID}`,
+          message: `no query present with the id ${announceID}`,
         });
       } else {
         updatestatus.status = !updatestatus.status;
@@ -137,7 +137,7 @@ const getspecificannounce = async (req, res) => {
       });
       if (!getannouncespecific) {
         return res.status(404).json({
-          message: `no announcement present with the id ${announceID}`,
+          message: `no query present with the id ${announceID}`,
         });
       } else {
         return res.status(200).json({

@@ -22,11 +22,11 @@ const loginUser = async (req, res) => {
       
     } else {
       if (!user) {
-        return res.status(404).json({ message: "Invalid credentials" });
+        return res.status(422).json({ message: "Invalid credentials" });
       }
 
       if (!isPasswordMatch) {
-        return res.status(404).json({ message: "Invalid password" });
+        return res.status(422).json({ message: "Invalid password" });
 
       }
 
@@ -67,7 +67,7 @@ const adminLogin = async (req, res) => {
       adminUser.confirmpassword
     );
     if (!isPasswordMatch) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res.status(422).json({ message: "Invalid password" });
     }
 
     const users = await signupdb.find({ name: { $nin: "admin" } });

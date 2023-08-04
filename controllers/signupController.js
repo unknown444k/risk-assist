@@ -38,12 +38,10 @@ const signupUser = async (req, res) => {
   }
 };
 
-
-
 const getUsers = async (req, res) => {
   try {
     authenticateToken(req, res, async () => {
-      const users = await signupModel.find({ name: { $nin: "admin" } });
+      const users = await signupModel.find({ name: { $ne: "admin" } });
       if(!users){
         res.status(200).json({ message: "user doesn't exists" });
       }

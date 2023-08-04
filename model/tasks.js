@@ -16,9 +16,12 @@ const connectdb = async () => {
 connectdb();
 
 taskSchema = mongoose.Schema({
-  name: {
+  description: {
     type: String,
-    unique :true,
+    required: true
+  },
+  user: {
+    type: String,
     required: true
   },
   completed: {
