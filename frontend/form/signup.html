@@ -12,7 +12,6 @@
    
     <form  name="signup" method="">
       <h2 id="demo">Sign up</h2>
-
       <div>
         <div>
           <label for="name"><b>Name</b></label>
@@ -44,7 +43,7 @@
         <div>
           <label for="password"><b>Password</b></label>
           <input
-            type="password"
+            type="text"
             id="password"
             name="password"
             placeholder="Enter your password"
@@ -53,13 +52,12 @@
         <div>
           <label for="password"><b>Confirm Password</b></label>
           <input
-            type="password"
+            type="text"
             id="confpassword"
             name="confpassword"
             placeholder="Enter your confirm password"
           />
         </div>
-
         <button type="submit">Sign up</button>
         <label for="log"
           >Already have an account?<a href="login.html">Login</a></label
@@ -97,13 +95,15 @@
           alert("All the fields are mandatory");
         }  else if (!emailPattern.test(email)) {
           alert("please enter valid email");
-        } else if (!passpattern.test(userpassword)) {
+        }
+        else if (isNaN(phone)) {
+          alert("please enter valid phone");
+        }  else if (phone.length !== 10) {
+          alert("phone number should contain 10 digits");
+        } 
+        else if (!passpattern.test(userpassword)) {
           alert("Password should contain a minimum of 8 characters, at least 1 special character, 1 uppercase letter, and 1 lowercase letter.");
        
-        } else if (isNaN(phone)) {
-          alert("please enter valid phone");
-        } else if (phone.length !== 10) {
-          alert("phone number should contain 10 digits");
         } 
        else if (userpassword !== confpassword) {
           alert('password mismatch');

@@ -14,10 +14,10 @@ const createTasks = async (req, res) => {
       const { description } = req.body;
       const {user} = req.body;
       if (!description || !user) {
-        return res.status(200).json({ error: "name and user should not empty" });
+        return res.status(200).json({ error: "description and user should not empty" });
       }
       try {
-        const users = await userdata.findOne({name : user},{name:1,_id:0})
+        const users = await userdata.findOne({name : user})
         if(!users){
           return res.status(200).json({ message: "User does not exists" });
         }

@@ -2,6 +2,7 @@ const signupdb = require("../model/signup");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const announcedb = require("../model/announcement")
+const tasks = require("../model/tasks")
 require("dotenv").config();
 
 const loginUser = async (req, res) => {
@@ -13,21 +14,16 @@ const loginUser = async (req, res) => {
       user.confirmpassword
     );
     if (user.email == "admin@gmail.com" && isPasswordMatch == true) {
-    
        const getannounce = await announcedb.find({});
        const count = await signupdb.countDocuments({ name: { $nin: "admin" } });
        const users = await signupdb.find({ name: { $nin: "admin" } });
-
        res.status(200).json({ userCount: count,userList: users,queryList: getannounce });
-      
     } else {
       if (!user) {
         return res.status(422).json({ message: "Invalid credentials" });
       }
-
       if (!isPasswordMatch) {
         return res.status(422).json({ message: "Invalid password" });
-
       }
 
       const payload = {
@@ -36,10 +32,13 @@ const loginUser = async (req, res) => {
         userName: user.name,
       };
       const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-
+      console.log(user.name)
+      const task = await tasks.find({ user: user.name });
+      const taskcount = await tasks.countDocuments({user: user.name})
        res
         .status(200)
-        .json({ message: "Login Successful", accessToken: token })
+        .json({ message: "Login Successful", accessToken: token , data:task,taskcount:taskcount})
+
       }
   } catch (error) {
     console.error(error);
