@@ -3,168 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../announcement/announce.css">
     <title>Risk Manage</title>
     <!-- Font Awesome icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f1f1f1;
-      }
-      .container {
-        max-width: 1500px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #ffffff;
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-      }
-      h1 {
-        text-align: center;
-        color: #333333;
-      }
-
-      form {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 20px;
-      }
-
-      form label,
-      form input,
-      form textarea,
-      form button {
-        margin: 10px 0;
-      }
-
-      form label {
-        color: #555555;
-      }
-
-      input,
-      textarea {
-        padding: 8px;
-        border: 1px solid #cccccc;
-        border-radius: 3px;
-      }
-
-      button {
-        cursor: pointer;
-        background-color: #007bff;
-        color: #ffffff;
-        padding: 8px 12px;
-        border: none;
-        border-radius: 3px;
-        transition: background-color 0.2s ease;
-      }
-
-      button:hover {
-        background-color: #0056b3;
-      }
-
-      .announcement-list {
-        list-style-type: none;
-        padding: 0;
-      }
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th, td {
-  padding: 10px;
-  border-bottom: 1px solid #cccccc;
-}
-
-th {
-  background-color: #f2f2f2;
-}
-
-
-      .announcement-item {
-        border: 1px solid #cccccc;
-        padding: 10px;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #f9f9f9;
-      }
-
-      .announcement-item h3 {
-        margin: 0;
-        color: #222222;
-      }
-
-      .actions {
-        display: flex;
-        gap: 5px;
-      }
-
-      .actions button {
-        background-color: #d62c4e;
-        transition: background-color 0.2s ease;
-      }
-
-      .actions button:hover {
-        background-color:#2d7cd0;
-      }
-
-      .actions button i {
-        color: #ffffff;
-      }
-
-      .actions button.toggle {
-        background-color: #28a745;
-      }
-
-      .actions button.toggle:hover {
-        background-color: #218838;
-      }
-
-      .actions button.toggle i {
-        color: #ffffff;
-      }
-
-      .error-message {
-        color: red;
-      }
-
-      /* Hidden form for updating the announcement */
-      .hidden-form {
-        display: none;
-        margin-top: 20px;
-      }
-
-      .hidden-form label,
-      .hidden-form input,
-      .hidden-form textarea,
-      .hidden-form button {
-        margin: 10px 0;
-      }
-
-      .hidden-form input,
-      .hidden-form textarea {
-        width: 100%;
-      }
-      .bck {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 10px;
-  margin: 10px;
-}
-
-    </style>
+   
   </head>
   <body>
     <div>
-    <a href="../form/login.html">  <button class="bck" type="button">Back</a></button>
+    <a href="../form/login.html">  <button class="bck" type="button">Back</button></a>
+    <a href="../task/usertask.html">  <button class="task" type="button">Show task</button></a>
+
     </div>
     <div class="container">
       <h1>Risk Manage</h1>
@@ -373,22 +225,7 @@ else{
       fetchAnnouncements(); // Fetch and display the initial list of announcements
 
 
-      async function logout(){
-      try {
-        const response = fetch(`${apiUrl}/logout`,{
-          method:"POST",
-          headers:{    
-          }
-        })
-        data = await response.json()
-        alert(data.message)
-        window.location.href = '../form/login.html'; // Replace '/login' with the actual login page URL
-
-      } catch (error) {
-        console.log({error:error.message})
-      }
-      }
-      document.getElementById("logoutbtn").addEventListener('click',logout)
+     
       
     </script>
   </body>

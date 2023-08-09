@@ -12,7 +12,6 @@ app.use(session({
 port = 8080;
 const tasks = require("../starter/routes/tasks");
 
-app.use(express.static("./public"));
 app.use("/api/v1/tasks", tasks);
 
 app.listen(port, () => {

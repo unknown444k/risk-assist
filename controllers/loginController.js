@@ -32,12 +32,10 @@ const loginUser = async (req, res) => {
         userName: user.name,
       };
       const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-      console.log(user.name)
-      const task = await tasks.find({ user: user.name });
       const taskcount = await tasks.countDocuments({user: user.name})
        res
         .status(200)
-        .json({ message: "Login Successful", accessToken: token , data:task,taskcount:taskcount})
+        .json({ message: "Login Successful", accessToken: token , user:user.name,})
 
       }
   } catch (error) {
@@ -105,6 +103,7 @@ const logoutUser = async(req,res)=>{
     return res.status(500).json({error:"Internal server error"})
   }
 }
+
 
 
 module.exports = {

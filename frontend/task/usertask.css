@@ -1,0 +1,64 @@
+/* styles.css */
+
+/* Apply general styles to the page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the header */
+header {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Center the table in the main content area */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Apply styling to the table */
+#taskTable {
+    width: 80%;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+#taskTable th,
+#taskTable td {
+    padding: 1rem;
+    text-align: left;
+}
+
+#taskTable th {
+    background-color: #f2f2f2;
+}
+
+#taskTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Style the toggle status buttons */
+button.active {
+    background-color: #4caf50;
+    color: white;
+}
+
+button {
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Add some spacing between the table and the bottom of the page */
+#taskTable {
+    margin-bottom: 20px;
+}

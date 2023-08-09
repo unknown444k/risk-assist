@@ -130,11 +130,32 @@ const getsingletasks = async (req, res) => {
   }
 };
 
+const gettaskdetails = async(req,res)=>{
+ // const username = req.query.user
+  const {user:taskUser} = req.params
+  try {
+    const taskdata = await taskmodel.find({user:taskUser})
+    const taskcount = await taskmodel.countDocuments({user:taskUser})
+
+    if(!taskdata){
+      return res.status(422).json({message:"no user found"})
+    }
+else {
+  return res.status(200).json({message:"task list",data:taskdata,count:taskcount})
+
+}
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+
+  }
+}
+
 module.exports = {
   getalltasks,
   createTasks,
   updatetasks,
   deletetasks,
   getsingletasks,
-  updatecompleted
+  updatecompleted,
+  gettaskdetails
 };

@@ -62,13 +62,16 @@
               window.location.href = "../userdata/userdata.html";
               alert("Login successful");
             } else {
+              let username
               const data = await response.json();
-              console.log("Login successful:", data);
+               username = await data.user
 
               // Redirect to another page or perform other actions upon successful login
               // For example, you can redirect the user to a dashboard page:
               // window.location.href = '/dashboard';
               window.location.href = "../announcement/announce.html";
+              console.log("Login successful", username);
+              localStorage.setItem("name", username);
               alert("Login successful");
             }
           } catch (error) {
@@ -78,6 +81,7 @@
           }
         }
       }
+
     </script>
   </body>
 </html>

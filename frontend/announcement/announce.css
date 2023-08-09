@@ -1,0 +1,157 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f1f1f1;
+}
+.container {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+h1 {
+  text-align: center;
+  color: #333333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+form label,
+form input,
+form textarea,
+form button {
+  margin: 10px 0;
+}
+
+form label {
+  color: #555555;
+}
+
+input,
+textarea {
+  padding: 8px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+}
+
+button {
+  cursor: pointer;
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.announcement-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 20px;
+}
+
+th, td {
+padding: 10px;
+border-bottom: 1px solid #cccccc;
+}
+
+th {
+background-color: #f2f2f2;
+}
+
+
+.announcement-item {
+  border: 1px solid #cccccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+}
+
+.announcement-item h3 {
+  margin: 0;
+  color: #222222;
+}
+
+.actions {
+  display: flex;
+  gap: 5px;
+}
+
+.actions button {
+  background-color: #d62c4e;
+  transition: background-color 0.2s ease;
+}
+
+.actions button:hover {
+  background-color:#2d7cd0;
+}
+
+.actions button i {
+  color: #ffffff;
+}
+
+.actions button.toggle {
+  background-color: #28a745;
+}
+
+.actions button.toggle:hover {
+  background-color: #218838;
+}
+
+.actions button.toggle i {
+  color: #ffffff;
+}
+
+.error-message {
+  color: red;
+}
+
+/* Hidden form for updating the announcement */
+.hidden-form {
+  display: none;
+  margin-top: 20px;
+}
+
+.hidden-form label,
+.hidden-form input,
+.hidden-form textarea,
+.hidden-form button {
+  margin: 10px 0;
+}
+
+.hidden-form input,
+.hidden-form textarea {
+  width: 100%;
+}
+.bck {
+position: absolute;
+top: 0;
+right: 0;
+padding: 10px;
+margin: 10px;
+}
+.task {
+position: absolute;
+top: 0;
+left: 0;
+padding: 10px;
+margin: 10px;
+}
+
