@@ -42,7 +42,7 @@ const getUsers = async (req, res) => {
   try {
     authenticateToken(req, res, async () => {
       const users = await signupModel.find({ name: { $ne: "admin" } });
-      if(!users){
+      if (!users) {
         res.status(200).json({ message: "user doesn't exists" });
       }
       res.status(200).json({ users });
@@ -52,22 +52,22 @@ const getUsers = async (req, res) => {
   }
 };
 
-const getusersCount = async (req,res)=>{
+const getusersCount = async (req, res) => {
   try {
-    const usersCount = await signupModel.countDocuments({name:{$nin:"admin"}})
-    if(!usersCount){
+    const usersCount = await signupModel.countDocuments({
+      name: { $nin: "admin" },
+    });
+    if (!usersCount) {
       res.status(200).json({ message: "usercount doesn't exists" });
     }
     res.status(200).json({ usersCount });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
-
-
+};
 
 module.exports = {
   signupUser,
   getUsers,
-  getusersCount
+  getusersCount,
 };

@@ -1,5 +1,5 @@
 const taskmodel = require("../model/tasks");
-const userdata = require("../model/signup")
+const userdata = require("../model/signup");
 const { authenticateToken } = require("./loginController");
 
 async function getalltasks(req, res) {
@@ -9,38 +9,37 @@ async function getalltasks(req, res) {
   });
 }
 const createTasks = async (req, res) => {
-  authenticateToken(req,res,async ()=>{
-   
-      const { description } = req.body;
-      const {user} = req.body;
-      if (!description || !user) {
-        return res.status(200).json({ error: "description and user should not empty" });
+  authenticateToken(req, res, async () => {
+    const { description } = req.body;
+    const { user } = req.body;
+    if (!description || !user) {
+      return res
+        .status(200)
+        .json({ error: "description and user should not empty" });
+    }
+    try {
+      const users = await userdata.findOne({ name: user });
+      if (!users) {
+        return res.status(200).json({ message: "User does not exists" });
+      } else {
+        const task = await taskmodel.create({
+          description,
+          user,
+        });
+
+        return res.status(200).json({
+          message: "tasks Created Successfully",
+          data: task,
+        });
       }
-      try {
-        const users = await userdata.findOne({name : user})
-        if(!users){
-          return res.status(200).json({ message: "User does not exists" });
-        }
-        else{
-          const task = await taskmodel.create({
-            description,
-            user
-          });
-    
-          return res.status(200).json({
-            message: "tasks Created Successfully",
-            data: task,
-          });
-        }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error.name === "MongoError" && error.code === 11000) {
         return res.status(404).json({ error: "tasks already exists" });
       }
       return res.status(404).json({ error: "Internal server error" });
     }
-  })
- 
+  });
 };
 
 const updatetasks = async (req, res) => {
@@ -51,7 +50,7 @@ const updatetasks = async (req, res) => {
       const task = await taskmodel.findOneAndUpdate(
         { _id: taskID },
         { name },
-      
+
         {
           new: true,
           runValidatots: true,
@@ -62,32 +61,33 @@ const updatetasks = async (req, res) => {
           .status(404)
           .json({ message: `No task with the ID ${taskID}` });
       } else {
-
-        return res.status(200).json({ message:"task updated successfully",task });
+        return res
+          .status(200)
+          .json({ message: "task updated successfully", task });
       }
     });
   } catch (error) {
     return res.status(500).json({ error: error });
   }
 };
-const updatecompleted = async(req,res)=>{
+const updatecompleted = async (req, res) => {
   try {
-    const {id:taskID} = req.params
+    const { id: taskID } = req.params;
 
-    const complete = await taskmodel.findById({_id:taskID})
-if(!complete){
-return res.status(404).json({message: `No task with the ID ${taskID}` })
-}else{
-  complete.completed = !complete.completed
-  await complete.save();
-  return res.status(200).json({message :"status updated successfully",data : complete})
-
-}
-
+    const complete = await taskmodel.findById({ _id: taskID });
+    if (!complete) {
+      return res.status(404).json({ message: `No task with the ID ${taskID}` });
+    } else {
+      complete.completed = !complete.completed;
+      await complete.save();
+      return res
+        .status(200)
+        .json({ message: "status updated successfully", data: complete });
+    }
   } catch (error) {
     return res.status(500).json({ error: error });
   }
-}
+};
 
 const deletetasks = async (req, res) => {
   try {
@@ -102,7 +102,7 @@ const deletetasks = async (req, res) => {
           .status(404)
           .json({ message: `No task with the ID ${taskID}` });
       } else {
-        res.status(200).json({ message:"task deleted successfully",task });
+        res.status(200).json({ message: "task deleted successfully", task });
       }
     });
   } catch (error) {
@@ -122,7 +122,7 @@ const getsingletasks = async (req, res) => {
           .status(404)
           .json({ message: `No task with the ID ${taskID}` });
       } else {
-        res.status(200).json({ message:"view task",task });
+        res.status(200).json({ message: "view task", task });
       }
     });
   } catch (error) {
@@ -130,25 +130,24 @@ const getsingletasks = async (req, res) => {
   }
 };
 
-const gettaskdetails = async(req,res)=>{
- // const username = req.query.user
-  const {user:taskUser} = req.params
+const gettaskdetails = async (req, res) => {
+  // const username = req.query.user
+  const { user: taskUser } = req.params;
   try {
-    const taskdata = await taskmodel.find({user:taskUser})
-    const taskcount = await taskmodel.countDocuments({user:taskUser})
+    const taskdata = await taskmodel.find({ user: taskUser });
+    const taskcount = await taskmodel.countDocuments({ user: taskUser });
 
-    if(!taskdata){
-      return res.status(422).json({message:"no user found"})
+    if (!taskdata) {
+      return res.status(422).json({ message: "no user found" });
+    } else {
+      return res
+        .status(200)
+        .json({ message: "task list", data: taskdata, count: taskcount });
     }
-else {
-  return res.status(200).json({message:"task list",data:taskdata,count:taskcount})
-
-}
   } catch (error) {
     res.status(500).json({ error: error.message });
-
   }
-}
+};
 
 module.exports = {
   getalltasks,
@@ -157,5 +156,5 @@ module.exports = {
   deletetasks,
   getsingletasks,
   updatecompleted,
-  gettaskdetails
+  gettaskdetails,
 };
